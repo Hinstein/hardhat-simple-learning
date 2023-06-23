@@ -17,16 +17,21 @@ setGlobalDispatcher(proxyAgent)
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
     solidity: "0.8.8",
+
     defaultNetwork: "hardhat",
     networks: {
+        // using command `yarn hardhat`
+        // yarn hardhat run scripts/deploy.js --network sepolia
         sepolia: {
             url: SEPOLIA_RPC_URL,
             accounts: [PRIVATE_KEY],
             chainId: 11155111,
         },
+        // ganache
+        // yarn hardhat run scripts/deploy.js --network localhost
         localhost: {
-            url: "http://127.0.0.1:8545/",
-            chainId: 31337,
+            url: "http://127.0.0.1:7545/",
+            chainId: 1337,
         },
     },
     etherscan: {
@@ -35,7 +40,7 @@ module.exports = {
         apiKey: ETHERSACN_API_KEY,
     },
     gasReporter: {
-        enabled: false,
+        enabled: true,
         outputFile: "gas-report.txt",
         noColors: true,
         currency: "USD",

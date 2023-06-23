@@ -3,6 +3,13 @@ const { ethers, run, network } = require("hardhat")
 const { etherscan } = require("../hardhat.config")
 
 async function main() {
+    const signers = await ethers.getSigners()
+
+    // print every wallet address
+    signers.forEach((signer, index) => {
+        console.log(`Wallet ${index + 1} address: ${signer.address}`)
+    })
+
     const deployedContract = await ethers.deployContract("SimpleStorage")
     console.log("Deploying contract ...")
     const contract = await deployedContract.waitForDeployment()
@@ -10,7 +17,7 @@ async function main() {
     console.log("SimpleStorage Contract Address:", contractAddress)
 
     if (network.config.chainId === 11155111 && process.env.ETHERSACN_API_KEY) {
-        await deployedContract.deploymentTransaction().wait(7)
+        await deployedContract.deploymentTransaction().wait(10)
         await verify(contractAddress, [])
     }
     const currenValue = await deployedContract.retrieve()
